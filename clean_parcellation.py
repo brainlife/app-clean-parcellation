@@ -64,7 +64,7 @@ def main():
 	parc = nib.load(config['parcellation'])
 
 	# clean parcellation
-	clean_parcellation(parc,label_json,labels_json_labels,discard_labels)
+	clean_parcellation(parc,labels_json,labels_json_labels,discard_labels)
 
 if __name__ == '__main__':
 	main()
