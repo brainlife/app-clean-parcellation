@@ -6,7 +6,7 @@ import nibabel as nib
 import numpy as np
 import json
 
-def clean_parcellation(parc,labels_json_labels,discard_labels):
+def clean_parcellation(parc,label_json,labels_json_labels,discard_labels):
 	
 	# get the unique labels list, other than 0, which will be first
 	parc_values = np.unique(parc.get_fdata())[1:].astype(np.int)
@@ -64,7 +64,7 @@ def main():
 	parc = nib.load(config['parcellation'])
 
 	# clean parcellation
-	clean_parcellation(parc,labels_json_labels,discard_labels)
+	clean_parcellation(parc,label_json,labels_json_labels,discard_labels)
 
 if __name__ == '__main__':
 	main()
