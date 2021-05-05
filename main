@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#PBS -l nodes=1:ppn=1
+#PBS -l vmem=8gb
+#PBS -l walltime=0:15:00
+#PBS -N app-clean-parcellation
+#PBS -V
+
+# clean parcellation
+time singularity exec -e docker://brainlife/freesurfer-stats:1.2 ./clean_parcellation.py
+
+[ ! -f ./output/parc.nii.gz ] && echo "something went wrong. check derivatives" && exit 1 || echo "cleaning complete" && exit 0
