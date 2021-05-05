@@ -44,7 +44,7 @@ def main():
 	
 	# make output directory
 	if ~os.path.isdir('output'):
-		mkdir('output')
+		os.mkdir('output')
 
 	# load configs
 	with open('config.json','r') as config_f:
