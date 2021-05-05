@@ -7,6 +7,11 @@ import numpy as np
 import json
 
 def clean_parcellation(parc,labels_json_labels,discard_labels):
+	import os
+	import argparse
+	import nibabel as nib
+	import numpy as np
+	import json
 	
 	# get the unique labels list, other than 0, which will be first
 	parc_values = np.unique(parc.get_fdata())[1:].astype(np.int)
@@ -42,6 +47,12 @@ def clean_parcellation(parc,labels_json_labels,discard_labels):
 
 def main():
 
+	import os
+	import argparse
+	import nibabel as nib
+	import numpy as np
+	import json
+	
 	# make output directory
 	if ~os.path.isdir('output'):
 		mkdir('output')
