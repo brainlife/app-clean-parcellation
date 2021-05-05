@@ -55,7 +55,7 @@ def main():
 
 	# load labels json
 	with open(config['labels'],'r') as labels_f:
-		labels_json = json.load(labels_json)
+		labels_json = json.load(labels_f)
 
 	# extract labels from labels.json
 	labels_json_labels = [ str(f['voxel_value']) for f in labels_json ]
