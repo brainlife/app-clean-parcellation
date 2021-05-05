@@ -7,6 +7,6 @@
 #PBS -V
 
 # clean parcellation
-time singularity exec -e docker://brainlife/athlete-brain-study:latest ./clean_parcellation.py
+time singularity exec -e docker://brainlife/dipy:1.4.0 ./clean_parcellation.py
 
 [ ! -f ./output/parc.nii.gz ] && echo "something went wrong. check derivatives" && exit 1 || echo "cleaning complete" && exit 0
