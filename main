@@ -9,4 +9,5 @@
 # clean parcellation
 time singularity exec -e docker://brainlife/dipy:1.4.0 ./clean_parcellation.py
 
-[ ! -f ./output/parc.nii.gz ] && echo "something went wrong. check derivatives" && exit 1 || echo "cleaning complete" && exit 0
+key_txt=`jq -r '.key' config.json`
+[ ! -f ./output/parc.nii.gz ] && echo "something went wrong. check derivatives" && exit 1 || echo "cleaning complete" && cp ${key_txt} ./output/ && exit 0
