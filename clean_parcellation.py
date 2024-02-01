@@ -5,6 +5,7 @@ import argparse
 import nibabel as nib
 import numpy as np
 import json
+import math
 
 def clean_parcellation(parc,labels_json,labels_json_labels,discard_labels):
 	
@@ -27,11 +28,27 @@ def clean_parcellation(parc,labels_json,labels_json_labels,discard_labels):
 	# drop labels from labels_json
 	labels_json_reduced = [ f for f in labels_json if str(f['voxel_value']) not in remove_labels ]
 
+	# find left over label values
+	leftover_labels = [ np.int(labels_json_reduced[f]['voxel_value']) for f in range(len(labels_json_reduced)) ]
+
 	# remove labels from parc
 	parc_data = parc.get_fdata()
 	for i in remove_labels:
 		parc_data[parc_data == np.int(i)] = 0
-	output_img = nib.Nifti1Image(parc_data, parc.affine, parc.header)
+
+	# update voxel values in labels
+	ctr = 1
+	for i in leftover_labels:
+		parc_data[parc_data == np.int(i)] = int(ctr)
+		ctr += 1
+
+	output_img = nib.Nifti1Image(parc_data.astype(np.int), parc.affine, parc.header)
+	
+	# update values in labels_json_reduced
+	for i in range(len(labels_json_reduced)):
+		labels_json_reduced[i]['voxel_value'] = i+1
+		labels_json_reduced[i]['label'] = i+1
+		labels_json_reduced[i]['desc'] = 'value of '+str(i+1)+' indicates voxel belonging to '+labels_json_reduced[i]['name']
 
 	# save nifti
 	nib.save(output_img,'./output/parc.nii.gz')
@@ -43,8 +60,8 @@ def clean_parcellation(parc,labels_json,labels_json_labels,discard_labels):
 def main():
 	
 	# make output directory
-	if ~os.path.isdir('output'):
-		os.mkdir('output')
+	if not os.path.isdir('./output'):
+		os.mkdir('./output')
 
 	# load configs
 	with open('config.json','r') as config_f:
