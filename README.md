@@ -3,6 +3,30 @@
 
 # Clean parcellations
 
+<!-- brainlife-app:begin (generated from the App manifest; edit the manifest, not this block) -->
+
+**Removes unwanted or missing parcels from a volumetric parcellation and renumbers the remaining parcels consecutively, updating label.json, with nibabel and numpy; a parcellation utility.**
+
+Drops parcels listed in discard_labels plus any parcel present in the image but not in label.json (and vice versa), sets them to 0, renumbers the remaining parcels 1..N and writes a matching label.json. Use it before building networks or summary statistics so node lists match the image. The original key.txt is copied unchanged and does not reflect the renumbering.
+
+Run it on brainlife.io: [https://doi.org/10.25663/brainlife.app.518](https://doi.org/10.25663/brainlife.app.518)
+
+| Input | Datatype | Required | Description |
+|---|---|---|---|
+| `parc` | `neuro/parcellation/volume` | yes | Volumetric parcellation (parc.nii.gz) with its key.txt and label.json; label.json voxel_value entries define the valid parcels. |
+
+| Output | Datatype | Description |
+|---|---|---|
+| `output` | `neuro/parcellation/volume` | This parcellation will have missing and unwanted parcels removed from the parcellation. This will help with network generation and summary statistics |
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `discard_labels` | string |  | Space-separated voxel values (from label.json) of the parcels to remove, e.g. "1 181"; leave empty to only remove parcels missing from label.json or the image. |
+
+Runtime: container `brainlife/dipy:1.4.0`; 1 CPUs.
+
+<!-- brainlife-app:end -->
+
 This app will This app will remove parcels from a parcellation/volume datatype based on user input. This is done using python, specifically nibabel and numpy.
 
 ### Authors
